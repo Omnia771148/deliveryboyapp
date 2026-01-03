@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connectionToDatabase from "../../../../lib/db";
 import AcceptedOrder from "../../../../models/AcceptedOrder";
+import Loading from "../../loading/page";
 
 export async function GET(req) {
   try {

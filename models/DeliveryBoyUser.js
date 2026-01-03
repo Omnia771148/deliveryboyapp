@@ -7,6 +7,9 @@ const deliveryBoySchema = new mongoose.Schema(
     password: String,
     phone: String,
     isActive: { type: Boolean, default: true },
+    aadharUrl: { type: String },
+  rcUrl: { type: String },
+  licenseUrl: { type: String },
   },
   { collection: "deliveryboyusers" } // 👈 collection name
 );

@@ -1,5 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
+// 1. IMPORT YOUR LOADING COMPONENT HERE
+// Adjust the path below if your loading file is in a different folder
+import Loading from "../loading/page"; 
 
 export default function AcceptedOrders() {
   const [orders, setOrders] = useState([]);
@@ -89,7 +92,8 @@ export default function AcceptedOrders() {
     setOrders((prev) => prev.filter((o) => o._id !== orderId));
   };
 
-  if (loading) return <p>Loading orders...</p>;
+  // 2. CHANGE THIS LINE TO USE YOUR CUSTOM COMPONENT
+  if (loading) return <Loading />;
 
   return (
     <div style={{ padding: "20px" }}>

@@ -4,21 +4,23 @@ import DeliveryBoyUser from "../../../../../models/DeliveryBoyUser";
 
 export async function POST(req) {
   try {
-    const { name, email, password, phone } = await req.json();
+    // 1. ADD THE URL FIELDS TO DESTRUCTURING
+    const { name, email, password, phone, aadharUrl, rcUrl, licenseUrl } = await req.json();
 
-    if (!name || !email || !password || !phone) {
+    // 2. CHECK ALL REQUIRED FIELDS (Optional: decide if URLs are required for signup)
+    if (!name || !email || !password || !phone || !aadharUrl || !rcUrl || !licenseUrl) {
       return NextResponse.json(
-        { message: "All fields required" },
+        { message: "All fields and documents are required" },
         { status: 400 }
       );
     }
 
     await connectionToDatabase();
 
-    // check if email OR phone already exists
     const userExists = await DeliveryBoyUser.findOne({
       $or: [{ email }, { phone }],
     });
+
     if (userExists) {
       return NextResponse.json(
         { message: "User with this email or phone already exists" },
@@ -26,11 +28,15 @@ export async function POST(req) {
       );
     }
 
+    // 3. PASS THE URLS INTO THE CREATE FUNCTION
     await DeliveryBoyUser.create({
       name,
       email,
-      password, // <-- store as plain text
-      phone, // <-- store number here
+      password, 
+      phone,
+      aadharUrl,  // <-- Add this
+      rcUrl,      // <-- Add this
+      licenseUrl, // <-- Add this
     });
 
     return NextResponse.json(
